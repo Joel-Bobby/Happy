@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday My Love! 🎉</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Access Code Screen */
+        .access-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+        }
+
+        .access-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('wmremove-transformed-2.png') center/cover no-repeat;
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .access-card {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 60px 40px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            animation: fadeInUp 0.8s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .lock-icon {
+            font-size: 70px;
+            margin-bottom: 25px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .access-card h1 {
+            color: #667eea;
+            font-size: 36px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .access-card p {
+            color: #666;
+            margin-bottom: 35px;
+            font-size: 17px;
+            line-height: 1.6;
+        }
+
+        .code-input {
+            width: 100%;
+            padding: 18px 25px;
+            font-size: 20px;
+            border: 3px solid #e0e0e0;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            text-align: center;
+            letter-spacing: 4px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .code-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 5px rgba(102, 126, 234, 0.15);
+            transform: scale(1.02);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .error-message {
+            color: #e74c3c;
+            margin-top: 20px;
+            font-size: 15px;
+            display: none;
+            font-weight: 600;
+        }
+
+        /* LOVE EMOJI ANIMATION */
+        .love-emoji {
+            position: fixed;
+            font-size: 40px;
+            pointer-events: none;
+            z-index: 9999;
+            animation: floatUp 4s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(0.5) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(-50vh) scale(1) rotate(180deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) scale(0.5) rotate(360deg);
+            }
+        }
+
+        /* Countdown Only Screen */
+        .countdown-only-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%);
+            overflow-y: auto;
+            z-index: 999;
+        }
+
+        .countdown-only-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=1920') center/cover no-repeat fixed;
+            opacity: 0.35;
+            z-index: 0;
+        }
+
+        .countdown-wrapper {
+            max-width: 1100px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            padding: 50px 20px;
+        }
+
+        .countdown-title {
+            font-size: 80px;
+            color: white;
+            margin-bottom: 35px;
+            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.6);
+            animation: fadeInDown 1s ease;
+            font-weight: 900;
+            letter-spacing: 3px;
+            line-height: 1.1;
+        }
+
+        .countdown-subtitle {
+            font-size: 32px;
+            color: rgba(255, 255, 255, 0.98);
+            margin-bottom: 70px;
+            animation: fadeInUp 1s ease 0.2s both;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+            font-weight: 600;
+        }
+
+        .countdown-container {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 80px 60px;
+            border-radius: 35px;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 1s ease 0.4s both;
+            backdrop-filter: blur(20px);
+        }
+
+        .countdown-label-main {
+            color: #333;
+            margin-bottom: 50px;
+            font-size: 40px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+        }
+
+        .countdown {
+            display: flex;
+            gap: 45px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            text-align: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 40px 50px;
+            border-radius: 25px;
+            min-width: 200px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            transition: all 0.4s ease;
+        }
+
+        .countdown-item:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+        }
+
+        .countdown-value {
+            font-size: 110px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            line-height: 1;
+            filter: drop-shadow(3px 3px 5px rgba(0, 0, 0, 0.1));
+        }
+
+        .countdown-label {
+            font-size: 22px;
+            color: #555;
+            text-transform: uppercase;
+            margin-top: 20px;
+            letter-spacing: 4px;
+            font-weight: 700;
+        }
+
+        .waiting-message {
+            margin-top: 70px;
+            padding: 50px 60px;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 25px;
+            color: #333;
+            font-size: 24px;
+            line-height: 1.9;
+            animation: fadeInUp 1s ease 0.6s both;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .waiting-message p {
+            margin: 15px 0;
+        }
+
+        .waiting-message strong {
+            color: #667eea;
+            font-size: 30px;
+            display: block;
+            margin: 20px 0;
+        }
+
+        .birthday-emoji {
+            font-size: 56px;
+            margin: 25px 0;
+            display: block;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Main Content */
+        .main-content {
+            display: none;
+            animation: fadeIn 1.5s ease;
+            background: white;
+        }
+
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 30px;
+            position: relative;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.85) 0%, rgba(118, 75, 162, 0.85) 100%);
+        }
+
+        /* ⚠️ ADD YOUR BIRTHDAY BACKGROUND IMAGE HERE */
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('wmremove-transformed-2.png') center/cover no-repeat fixed;
+            opacity: 0.5;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        .hero-title {
+            font-size: 90px;
+            color: white;
+            margin-bottom: 40px;
+            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.7);
+            animation: fadeInDown 1s ease;
+            font-weight: 900;
+            line-height: 1.1;
+        }
+
+        .birthday-message {
+            font-size: 28px;
+            color: white;
+            margin-bottom: 50px;
+            line-height: 1.8;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
+            font-weight: 600;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        /* WhatsApp Button */
+        .whatsapp-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: #25D366;
+            color: white;
+            padding: 18px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: 700;
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease 0.5s both;
+            margin-top: 20px;
+        }
+
+        .whatsapp-button:hover {
+            background: #128C7E;
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(37, 211, 102, 0.6);
+        }
+
+        .whatsapp-button:active {
+            transform: translateY(-3px) scale(1.03);
+        }
+
+        .whatsapp-icon {
+            font-size: 28px;
+        }
+
+        /* Photo Gallery */
+        .gallery-section {
+            padding: 120px 30px;
+            background: linear-gradient(to bottom, white 0%, #f8f9fa 100%);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 56px;
+            color: #333;
+            margin-bottom: 70px;
+            font-weight: 800;
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .section-title.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 120px;
+            height: 5px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 25px auto 0;
+            border-radius: 3px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            transition: all 0.4s ease;
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            opacity: 0;
+            transform: translateX(-100px);
+            transition: all 0.8s ease;
+            cursor: pointer;
+        }
+
+        .gallery-item:nth-child(even) {
+            transform: translateX(100px);
+        }
+
+        .gallery-item:nth-child(3n) {
+            transform: translateY(100px);
+        }
+
+        .gallery-item.animate-in {
+            opacity: 1;
+            transform: translateX(0) translateY(0);
+        }
+
+        .gallery-item:nth-child(1) { transition-delay: 0.1s; }
+        .gallery-item:nth-child(2) { transition-delay: 0.2s; }
+        .gallery-item:nth-child(3) { transition-delay: 0.3s; }
+        .gallery-item:nth-child(4) { transition-delay: 0.4s; }
+        .gallery-item:nth-child(5) { transition-delay: 0.5s; }
+        .gallery-item:nth-child(6) { transition-delay: 0.6s; }
+
+        .gallery-item:hover {
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            flex-direction: column;
+            font-weight: 600;
+        }
+
+        /* LIGHTBOX - Fullscreen Photo Viewer */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            background: white;
+            color: #333;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-close:hover {
+            background: #ff4444;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .lightbox-actions {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .lightbox-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .lightbox-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .share-status-btn {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        /* Music Player */
+        .music-section {
+            padding: 120px 30px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            position: relative;
+        }
+
+        .music-player {
+            max-width: 700px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            padding: 60px;
+            border-radius: 30px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.8s ease;
+        }
+
+        .music-player.animate-in {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .music-title {
+            font-size: 32px;
+            margin-bottom: 35px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .music-controls {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            margin-top: 45px;
+        }
+
+        .control-btn {
+            background: white;
+            border: none;
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            font-size: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            color: #f5576c;
+        }
+
+        .control-btn:hover {
+            transform: scale(1.2);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .control-btn:active {
+            transform: scale(1.1);
+        }
+
+        .play-btn {
+            width: 100px;
+            height: 100px;
+            font-size: 40px;
+        }
+
+        .music-note {
+            margin-top: 30px;
+            font-size: 16px;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        /* Messages Section */
+        .messages-section {
+            padding: 120px 30px;
+            background: #f8f9fa;
+        }
+
+        .messages-container {
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        .admin-toggle {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 30px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .admin-toggle.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toggle-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 35px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .toggle-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .mode-status {
+            margin-top: 20px;
+            color: #666;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .message-form {
+            background: white;
+            padding: 50px;
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease 0.2s;
+        }
+
+        .message-form.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .message-form h3 {
+            margin-bottom: 35px;
+            color: #333;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 12px;
+            color: #333;
+            font-weight: 700;
+            font-size: 17px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 18px 22px;
+            border: 3px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 17px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 5px rgba(102, 126, 234, 0.12);
+            transform: scale(1.01);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 140px;
+            line-height: 1.6;
+        }
+
+        .post-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 20px 50px;
+            border-radius: 12px;
+            font-size: 19px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .post-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .post-btn:active {
+            transform: translateY(-2px);
+        }
+
+        .messages-list {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .message-card {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+            animation: slideInLeft 0.5s ease;
+            transition: all 0.3s ease;
+            border-left: 5px solid #667eea;
+        }
+
+        .message-card:hover {
+            transform: translateX(8px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .message-author {
+            font-weight: 800;
+            color: #667eea;
+            font-size: 22px;
+        }
+
+        .message-date {
+            color: #999;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .message-text {
+            color: #333;
+            line-height: 1.8;
+            font-size: 17px;
+        }
+
+        .empty-messages {
+            text-align: center;
+            color: #999;
+            padding: 60px 40px;
+            font-size: 19px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            background: #f0f;
+            animation: confetti-fall 3s linear forwards;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .celebration-emoji {
+            position: fixed;
+            font-size: 35px;
+            pointer-events: none;
+            z-index: 9999;
+            animation: celebration-fall 3s linear forwards;
+            opacity: 1;
+        }
+
+        @keyframes celebration-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .shake {
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .countdown-title {
+                font-size: 52px;
+            }
+
+            .hero-title {
+                font-size: 56px;
+            }
+
+            .birthday-message {
+                font-size: 22px;
+            }
+
+            .section-title {
+                font-size: 40px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 25px;
+            }
+
+            .lightbox-actions {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 42px;
+            }
+
+            .birthday-message {
+                font-size: 19px;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+
+            .lightbox-close {
+                top: -40px;
+                width: 40px;
+                height: 40px;
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Access Code Screen -->
+    <div class="access-screen" id="accessScreen">
+        <div class="access-card">
+            <div class="lock-icon">🔐</div>
+            <h1>✨ Special Access Required ✨</h1>
+            <p>Enter the secret code to unlock<br>your birthday surprise!</p>
+            <input 
+                type="text" 
+                id="codeInput" 
+                class="code-input" 
+                placeholder="ENTER CODE"
+                maxlength="20"
+            >
+            <button class="submit-btn" onclick="checkCode()">🎉 UNLOCK SURPRISE 🎉</button>
+            <p class="error-message" id="errorMessage">❌ Incorrect code. Please try again!</p>
+        </div>
+    </div>
+
+    <!-- Countdown Only Screen -->
+    <div class="countdown-only-screen" id="countdownScreen">
+        <div class="countdown-wrapper">
+            <h1 class="countdown-title">🎂 Your Birthday<br>Surprise Awaits! 🎉</h1>
+            <p class="countdown-subtitle">Something magical is coming your way...</p>
+            
+            <div class="countdown-container">
+                <div class="countdown-label-main">⏰ Time Until Your Big Day ⏰</div>
+                <div class="countdown" id="countdownTimer">
+                    <div class="countdown-item">
+                        <span class="countdown-value" id="days">00</span>
+                        <span class="countdown-label">DAYS</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-value" id="hours">00</span>
+                        <span class="countdown-label">HOURS</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-value" id="minutes">00</span>
+                        <span class="countdown-label">MINUTES</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-value" id="seconds">00</span>
+                        <span class="countdown-label">SECONDS</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="waiting-message">
+                <span class="birthday-emoji">✨🎁✨</span>
+                <p>Get ready for an unforgettable celebration!</p>
+                <p>Your birthday gift will be revealed on:</p>
+                <strong>🎊 March 3rd at 12:00 PM 🎊</strong>
+                <span class="birthday-emoji">💝🎂💝</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <!-- Hero Section with Background Image -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">🎂 HAPPY BIRTHDAY! 🎉</h1>
+                <p class="birthday-message">
+                    Today is YOUR special day! I hope this brings the biggest smile to your beautiful face. 
+                    You deserve all the happiness, love, and joy in the world. 
+                    Here's to celebrating the amazing person that YOU are! 💝✨
+                </p>
+                
+                <a href="https://wa.me/message/6X3WV5NYFTC5I1" 
+                   class="whatsapp-button" 
+                   target="_blank"
+                   id="whatsappBtn">
+                    <span class="whatsapp-icon">💬</span>
+                    <span>Send Birthday Wish on WhatsApp</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Photo Gallery with Click to View -->
+        <section class="gallery-section">
+            <h2 class="section-title" id="galleryTitle">📸 Our Beautiful Memories 📸</h2>
+            <div class="gallery-grid" id="gallery">
+                <!-- Replace with your actual photos -->
+                <div class="gallery-item" onclick="openLightbox('wmremove-transformed-2.png')">
+                    <img src="wmremove-transformed-2.png" alt="Memory 1">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('IMG-20250427-WA0006.jpg')">
+                    <img src="IMG-20250427-WA0006.jpg" alt="Memory 2">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('IMG-20250427-WA0011.jpg')">
+                    <img src="IMG-20250522-WA0011.jpg" alt="Memory 3">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('IMG-20250522-WA0012.jpg')">
+                    <img src="IMG-20250522-WA0012.jpg" alt="Memory 4">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('Screenshot_2025-05-09-18-45-22-316_com.whatsapp.jpg')">
+                    <img src="Screenshot_2025-05-09-18-45-22-316_com.whatsapp.jpg" alt="Memory 5">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('Steph.jpg')">
+                    <img src="Steph.jpg" alt="Memory 6">
+                </div>
+            </div>
+        </section>
+
+        <!-- Lightbox for Fullscreen View -->
+        <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+            <div class="lightbox-content" onclick="event.stopPropagation()">
+                <button class="lightbox-close" onclick="closeLightbox()">×</button>
+                <img src="" alt="Full size" class="lightbox-image" id="lightboxImage">
+                <div class="lightbox-actions">
+                    <button class="lightbox-btn share-status-btn" onclick="shareToStatus()">
+                        📱 Share to WhatsApp Status
+                    </button>
+                    <button class="lightbox-btn download-btn" onclick="downloadImage()">
+                        ⬇️ Download Photo
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Music Player Section -->
+        <section class="music-section">
+            <h2 class="section-title">🎵 Our Special Song 🎵</h2>
+            <div class="music-player" id="musicPlayer">
+                <p class="music-title">💕 Our Song 💕</p>
+                <audio id="audioPlayer" src="Simi-Happy-Birthday-ft-Adekunle-Gold-DeJa-5-(JustNaija.com) (1).mp3" preload="auto"></audio>
+                <audio id="audioPlayer" src="Burna_Boy_-_For_My_Hand_Feat._Ed_Sheeran_(mp3.pm) (1).mp3" preload="auto"></audio>
+                <div class="music-controls">
+                    <button class="control-btn" onclick="skipBackward()" title="Skip back 10s">⏮️</button>
+                    <button class="control-btn play-btn" onclick="togglePlay()" id="playBtn" title="Play/Pause">▶️</button>
+                    <button class="control-btn" onclick="skipForward()" title="Skip forward 10s">⏭️</button>
+                </div>
+                <p class="music-note">
+                    💡 Enjoy your beautiful moment      
+                </p>
+            </div>
+        </section>
+
+        <!-- Birthday Messages Section -->
+        <section class="messages-section">
+            <h2 class="section-title" id="messagesTitle">💌 Birthday Wishes 💌</h2>
+            <div class="messages-container">
+                <div class="admin-toggle" id="adminToggleSection">
+                    <button class="toggle-btn" id="adminToggle" onclick="toggleAdminMode()">
+                        🔒 GUEST MODE
+                    </button>
+                    <p class="mode-status" id="modeStatus">
+                        Currently: Guest Mode (You see only your own message)
+                    </p>
+                </div>
+
+                <div class="message-form" id="messageForm">
+                    <h3>✍️ Leave a Birthday Message</h3>
+                    <div class="form-group">
+                        <label for="nameInput">Your Name</label>
+                        <input type="text" id="nameInput" placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="messageInput">Your Birthday Wish</label>
+                        <textarea id="messageInput" placeholder="Write your heartfelt birthday message here..."></textarea>
+                    </div>
+                    <button class="post-btn" onclick="postMessage()">🎉 POST MESSAGE 🎉</button>
+                </div>
+
+                <div class="messages-list" id="messagesList">
+                    <div class="empty-messages">
+                        💬 No messages yet. Be the first to wish a happy birthday!
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // ==========================================
+        // 🎯 CONFIGURATION
+        // ==========================================
+        
+        const ACCESS_CODE = 'ARIA01';
+        const ADMIN_CODE = 'STEPH';
+        const BIRTHDAY_DATE = new Date('2025-03-03T12:00:00');
+        const WHATSAPP_NUMBER = '+2349168879465';
+        
+        let isAdminMode = false;
+        let currentUserName = localStorage.getItem('currentUserName') || '';
+        let currentImageSrc = '';
+
+        // ==========================================
+        // 💕 LOVE EMOJIS
+        // ==========================================
+        function createLoveEmojis() {
+            const loveEmojis = ['❤️', '😍', '💕', '💖', '💗', '💓', '💝', '🥰', '😘', '💞'];
+            const emojiCount = 30;
+            
+            for (let i = 0; i < emojiCount; i++) {
+                setTimeout(() => {
+                    const emoji = document.createElement('div');
+                    emoji.className = 'love-emoji';
+                    emoji.textContent = loveEmojis[Math.floor(Math.random() * loveEmojis.length)];
+                    emoji.style.left = Math.random() * 100 + 'vw';
+                    emoji.style.bottom = '0';
+                    document.body.appendChild(emoji);
+                    
+                    setTimeout(() => emoji.remove(), 4000);
+                }, i * 100);
+            }
+        }
+
+        // ==========================================
+        // 🖼️ LIGHTBOX FUNCTIONS
+        // ==========================================
+        function openLightbox(imageSrc) {
+            currentImageSrc = imageSrc;
+            document.getElementById('lightboxImage').src = imageSrc;
+            document.getElementById('lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function shareToStatus() {
+            const message = 'Check out this amazing birthday photo! 🎉🎂';
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message + ' ' + currentImageSrc)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        function downloadImage() {
+            const link = document.createElement('a');
+            link.href = currentImageSrc;
+            link.download = 'birthday-memory.jpg';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Close lightbox with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+
+        // ==========================================
+        // 🎬 SCROLL ANIMATIONS
+        // ==========================================
+        function setupScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-in');
+                    }
+                });
+            }, observerOptions);
+
+            const elementsToAnimate = document.querySelectorAll(
+                '.section-title, .gallery-item, .music-player, .admin-toggle, .message-form'
+            );
+
+            elementsToAnimate.forEach(el => observer.observe(el));
+        }
+
+        // ==========================================
+        // 🔐 ACCESS CODE
+        // ==========================================
+        function checkCode() {
+            const input = document.getElementById('codeInput').value.trim().toUpperCase();
+            const errorMsg = document.getElementById('errorMessage');
+            
+            if (input === ACCESS_CODE.toUpperCase()) {
+                document.getElementById('accessScreen').style.display = 'none';
+                createLoveEmojis();
+                
+                if (new Date() >= BIRTHDAY_DATE) {
+                    showMainContent();
+                } else {
+                    showCountdownOnly();
+                }
+            } else {
+                errorMsg.style.display = 'block';
+                document.getElementById('codeInput').value = '';
+                document.getElementById('codeInput').classList.add('shake');
+                setTimeout(() => {
+                    document.getElementById('codeInput').classList.remove('shake');
+                    errorMsg.style.display = 'none';
+                }, 2000);
+            }
+        }
+
+        function showCountdownOnly() {
+            document.getElementById('countdownScreen').style.display = 'flex';
+            startCountdown();
+        }
+
+        function showMainContent() {
+            document.getElementById('mainContent').style.display = 'block';
+            
+            setTimeout(() => {
+                setupScrollAnimations();
+            }, 100);
+            
+            updateWhatsAppLink();
+            setTimeout(createConfetti, 500);
+            setTimeout(createCelebrationEmojis, 800);
+            setTimeout(createConfetti, 1500);
+            setTimeout(createCelebrationEmojis, 1800);
+            
+            loadMessages();
+        }
+
+        function updateWhatsAppLink() {
+            const whatsappBtn = document.getElementById('whatsappBtn');
+            const message = encodeURIComponent('Happy Birthday! 🎉🎂 Wishing you the most amazing day filled with love and joy! 💝✨');
+            whatsappBtn.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const codeInput = document.getElementById('codeInput');
+            if (codeInput) {
+                codeInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        checkCode();
+                    }
+                });
+            }
+        });
+
+        // ==========================================
+        // ⏰ COUNTDOWN
+        // ==========================================
+        function startCountdown() {
+            updateCountdown();
+            const countdownInterval = setInterval(() => {
+                updateCountdown();
+                
+                if (new Date() >= BIRTHDAY_DATE) {
+                    clearInterval(countdownInterval);
+                    document.getElementById('countdownScreen').style.display = 'none';
+                    showMainContent();
+                }
+            }, 1000);
+        }
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = BIRTHDAY_DATE.getTime() - now;
+            
+            if (distance < 0) {
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+                return;
+            }
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        // ==========================================
+        // 🎊 CONFETTI
+        // ==========================================
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#ffd93d', '#ff6bcb', '#95e1d3', '#a8e6cf', '#ff8b94'];
+            const confettiCount = 200;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    confetti.style.animationDelay = Math.random() + 's';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 4000);
+                }, i * 20);
+            }
+        }
+
+        function createCelebrationEmojis() {
+            const celebrationEmojis = ['❤️', '😍', '💕', '🎉', '🎊', '🎂', '🎈', '✨', '💖', '🥳'];
+            const emojiCount = 50;
+            
+            for (let i = 0; i < emojiCount; i++) {
+                setTimeout(() => {
+                    const emoji = document.createElement('div');
+                    emoji.className = 'celebration-emoji';
+                    emoji.textContent = celebrationEmojis[Math.floor(Math.random() * celebrationEmojis.length)];
+                    emoji.style.left = Math.random() * 100 + 'vw';
+                    emoji.style.top = '-50px';
+                    document.body.appendChild(emoji);
+                    
+                    setTimeout(() => emoji.remove(), 4000);
+                }, i * 30);
+            }
+        }
+
+        // ==========================================
+        // 🎵 MUSIC PLAYER
+        // ==========================================
+        let isPlaying = false;
+        const audioPlayer = document.getElementById('audioPlayer');
+
+        function togglePlay() {
+            const playBtn = document.getElementById('playBtn');
+            
+            if (!audioPlayer.src) {
+                alert('⚠️ Please add your music file path in the HTML code first!');
+                return;
+            }
+            
+            if (isPlaying) {
+                audioPlayer.pause();
+                playBtn.textContent = '▶️';
+            } else {
+                audioPlayer.play();
+                playBtn.textContent = '⏸️';
+            }
+            isPlaying = !isPlaying;
+        }
+
+        function skipBackward() {
+            audioPlayer.currentTime = Math.max(0, audioPlayer.currentTime - 10);
+        }
+
+        function skipForward() {
+            audioPlayer.currentTime = Math.min(audioPlayer.duration, audioPlayer.currentTime + 10);
+        }
+
+        // ==========================================
+        // 👑 ADMIN MODE
+        // ==========================================
+        function toggleAdminMode() {
+            const input = prompt('🔐 Enter admin code to see ALL messages:');
+            
+            if (input && input.trim().toUpperCase() === ADMIN_CODE.toUpperCase()) {
+                isAdminMode = !isAdminMode;
+                updateAdminButton();
+                loadMessages();
+                createCelebrationEmojis();
+            } else if (input) {
+                alert('❌ Incorrect admin code!');
+            }
+        }
+
+        function updateAdminButton() {
+            const btn = document.getElementById('adminToggle');
+            const status = document.getElementById('modeStatus');
+            
+            if (isAdminMode) {
+                btn.textContent = '🔓 ADMIN MODE ACTIVE';
+                btn.style.background = 'linear-gradient(135deg, #52c41a 0%, #237804 100%)';
+                status.textContent = '👑 Admin Mode: You can see ALL messages from everyone!';
+                status.style.color = '#52c41a';
+            } else {
+                btn.textContent = '🔒 GUEST MODE';
+                btn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                status.textContent = 'Currently: Guest Mode (You see only your own message)';
+                status.style.color = '#666';
+            }
+        }
+
+        // ==========================================
+        // 💬 MESSAGES
+        // ==========================================
+        function postMessage() {
+            const name = document.getElementById('nameInput').value.trim();
+            const message = document.getElementById('messageInput').value.trim();
+            
+            if (!name || !message) {
+                alert('⚠️ Please fill in both your name and message!');
+                return;
+            }
+            
+            currentUserName = name;
+            localStorage.setItem('currentUserName', name);
+            
+            const messages = getMessages();
+            messages.push({
+                name: name,
+                message: message,
+                date: new Date().toISOString()
+            });
+            
+            localStorage.setItem('birthdayMessages', JSON.stringify(messages));
+            
+            document.getElementById('nameInput').value = '';
+            document.getElementById('messageInput').value = '';
+            
+            loadMessages();
+            createCelebrationEmojis();
+            
+            alert('🎉 Your birthday message has been posted successfully!');
+        }
+
+        function getMessages() {
+            const stored = localStorage.getItem('birthdayMessages');
+            return stored ? JSON.parse(stored) : [];
+        }
+
+        function loadMessages() {
+            const allMessages = getMessages();
+            const messagesList = document.getElementById('messagesList');
+            
+            let messagesToShow;
+            if (isAdminMode) {
+                messagesToShow = allMessages;
+            } else {
+                messagesToShow = allMessages.filter(msg => msg.name === currentUserName);
+            }
+            
+            if (messagesToShow.length === 0) {
+                const emptyMessage = isAdminMode 
+                    ? '💬 No messages yet. Be the first to wish a happy birthday!' 
+                    : '💬 You haven\'t posted a message yet. Leave a birthday wish above!';
+                messagesList.innerHTML = `<div class="empty-messages">${emptyMessage}</div>`;
+                return;
+            }
+            
+            messagesList.innerHTML = messagesToShow.reverse().map(msg => `
+                <div class="message-card">
+                    <div class="message-header">
+                        <span class="message-author">💝 ${escapeHtml(msg.name)}</span>
+                        <span class="message-date">${formatDate(msg.date)}</span>
+                    </div>
+                    <p class="message-text">${escapeHtml(msg.message)}</p>
+                </div>
+            `).join('');
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const options = { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit', 
+                minute: '2-digit'
+            };
+            return date.toLocaleDateString('en-US', options);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>
